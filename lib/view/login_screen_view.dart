@@ -1,5 +1,6 @@
 import 'package:ailav/common/break_common.dart';
 import 'package:ailav/common/textfield_commoner.dart';
+import 'package:ailav/view/register_screen_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -90,7 +91,12 @@ class LoginScreenView extends StatelessWidget {
                       style: const TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // Handle register tap
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterScreenView(),
+                            ),
+                          );
                         },
                     ),
                   ],
