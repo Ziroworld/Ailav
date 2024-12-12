@@ -1,5 +1,6 @@
 import 'package:ailav/common/break_common.dart';
 import 'package:ailav/common/textfield_commoner.dart';
+import 'package:ailav/view/forget_password_view.dart';
 import 'package:ailav/view/register_screen_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class LoginScreenView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
-                        'Welcome Back !',
+                        "Let's Sing you in !",
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -45,7 +46,13 @@ class LoginScreenView extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            // Handle forgot password logic
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ForgotPasswordScreen(),
+                              ),
+                            );
                           },
                           child: const Text(
                             'Forgot Password?',
@@ -59,7 +66,8 @@ class LoginScreenView extends StatelessWidget {
                           // Handle login logic here
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black, // Button color
+                          backgroundColor: const Color.fromRGBO(
+                              0, 122, 255, 100), // Button color
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 15), // Bigger button
                           shape: RoundedRectangleBorder(

@@ -1,3 +1,4 @@
+import 'package:ailav/view/login_screen_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ailav/common/break_common.dart';
@@ -22,7 +23,7 @@ class RegisterScreenView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
-                        'Sign Up Now!',
+                        'Lets Register Account',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -102,7 +103,8 @@ class RegisterScreenView extends StatelessWidget {
                           // Handle register logic
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black, // Button color
+                          backgroundColor: const Color.fromRGBO(
+                              0, 122, 255, 100), // Button color
                           padding: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 15),
                           shape: RoundedRectangleBorder(
@@ -126,7 +128,7 @@ class RegisterScreenView extends StatelessWidget {
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: 'Already a user? ',
+                  text: 'Already have a account? ',
                   style: const TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
@@ -134,7 +136,12 @@ class RegisterScreenView extends StatelessWidget {
                       style: const TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // Handle sign-in navigation
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreenView(),
+                            ),
+                          );
                         },
                     ),
                   ],
