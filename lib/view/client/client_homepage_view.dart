@@ -10,6 +10,14 @@ class ClientHomepageView extends StatefulWidget {
 class _ClientHomepageViewState extends State<ClientHomepageView> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text("helloworld"),
+          ],
+        ),
+      ),
+    );
   }
 }

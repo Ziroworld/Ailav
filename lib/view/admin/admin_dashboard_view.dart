@@ -10,6 +10,12 @@ class AdminDashboardView extends StatefulWidget {
 class _AdminDashboardViewState extends State<AdminDashboardView> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [Text("hello world")],
+        ),
+      ),
+    );
   }
 }
