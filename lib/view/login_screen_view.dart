@@ -1,4 +1,5 @@
 import 'package:ailav/common/break_common.dart';
+import 'package:ailav/common/logo_common.dart';
 import 'package:ailav/common/textfield_commoner.dart';
 import 'package:ailav/model/auth_model.dart';
 import 'package:ailav/view/admin/admin_dashboard_view.dart';
@@ -55,67 +56,73 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Let's Sing you in !",
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Break(50),
-                      Textfield(
-                        controller: _usernameController,
-                        obscureText: false,
-                        text: "Username",
-                        keyboardType: TextInputType.text,
-                      ),
-                      Break(16),
-                      Textfield(
-                        controller: _passwordController,
-                        obscureText: true,
-                        text: "Password",
-                        keyboardType: TextInputType.visiblePassword,
-                      ),
-                      Break(10), // Space before forgot password
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ForgotPasswordScreen(),
+                      const Logo(height: 200),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Let's Sign you in !",
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Break(50),
+                          Textfield(
+                            controller: _usernameController,
+                            obscureText: false,
+                            text: "Username",
+                            keyboardType: TextInputType.text,
+                          ),
+                          Break(16),
+                          Textfield(
+                            controller: _passwordController,
+                            obscureText: true,
+                            text: "Password",
+                            keyboardType: TextInputType.visiblePassword,
+                          ),
+                          Break(10), // Space before forgot password
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPasswordScreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                'Forgot Password?',
+                                style: TextStyle(color: Colors.blue),
                               ),
-                            );
-                          },
-                          child: const Text(
-                            'Forgot Password?',
-                            style: TextStyle(color: Colors.blue),
+                            ),
                           ),
-                        ),
-                      ),
-                      Break(10),
-                      ElevatedButton(
-                        onPressed: _performLogin,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(
-                              0, 122, 255, 100), // Button color
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 15), // Bigger button
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(30), // Rounded button
+                          Break(10),
+                          ElevatedButton(
+                            onPressed: _performLogin,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromRGBO(
+                                  0, 122, 255, 100), // Button color
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 50,
+                                  vertical: 15), // Bigger button
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(30), // Rounded button
+                              ),
+                            ),
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        ],
                       ),
                     ],
                   ),
