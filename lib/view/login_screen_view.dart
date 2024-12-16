@@ -1,12 +1,47 @@
 import 'package:ailav/common/break_common.dart';
 import 'package:ailav/common/textfield_commoner.dart';
+import 'package:ailav/model/auth_model.dart';
+import 'package:ailav/view/admin/admin_dashboard_view.dart';
+import 'package:ailav/view/client/client_homepage_view.dart';
 import 'package:ailav/view/forget_password_view.dart';
 import 'package:ailav/view/register_screen_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreenView extends StatelessWidget {
+class LoginScreenView extends StatefulWidget {
   const LoginScreenView({super.key});
+
+  @override
+  State<LoginScreenView> createState() => _LoginScreenViewState();
+}
+
+class _LoginScreenViewState extends State<LoginScreenView> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _performLogin() {
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+
+    final role = AuthModel.authenticate(username, password);
+
+    if (role == 'admin') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AdminDashboardView()),
+      );
+    } else if (role == 'customer') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ClientHomepageView()),
+      );
+    } else {
+      // Show error if authentication fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid username or password')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +67,18 @@ class LoginScreenView extends StatelessWidget {
                         ),
                       ),
                       Break(50),
-                      const Textfield(
+                      Textfield(
+                        controller: _usernameController,
                         obscureText: false,
                         text: "Username",
+                        keyboardType: TextInputType.text,
                       ),
                       Break(16),
-                      const Textfield(
+                      Textfield(
+                        controller: _passwordController,
                         obscureText: true,
                         text: "Password",
+                        keyboardType: TextInputType.visiblePassword,
                       ),
                       Break(10), // Space before forgot password
                       Align(
@@ -62,9 +101,7 @@ class LoginScreenView extends StatelessWidget {
                       ),
                       Break(10),
                       ElevatedButton(
-                        onPressed: () {
-                          // Handle login logic here
-                        },
+                        onPressed: _performLogin,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(
                               0, 122, 255, 100), // Button color
