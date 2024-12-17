@@ -1,4 +1,4 @@
-import 'package:ailav/common/break_common.dart';
+import 'package:ailav/core/common/break_common.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndConditionView extends StatelessWidget {

@@ -1,6 +1,6 @@
-import 'package:ailav/common/break_common.dart';
-import 'package:ailav/common/logo_common.dart';
-import 'package:ailav/common/textfield_commoner.dart';
+import 'package:ailav/core/common/break_common.dart';
+import 'package:ailav/core/common/logo_common.dart';
+import 'package:ailav/core/common/textfield_commoner.dart';
 import 'package:ailav/model/auth_model.dart';
 import 'package:ailav/view/admin/admin_dashboard_view.dart';
 import 'package:ailav/view/client/client_homepage_view.dart';
@@ -51,13 +51,20 @@ class _LoginScreenViewState extends State<LoginScreenView> {
       body: SafeArea(
         child: Column(
           children: [
+            // const Logo(height: 150),
+            const Align(
+              alignment: Alignment(
+                  0.0, 200), // X = 0.0 (center), Y = -0.5 (higher position)
+              child: Logo(height: 150),
+            ),
             Expanded(
               child: Center(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
                     children: [
-                      const Logo(height: 200),
+                      // Break(20),
+                      // const Logo(height: 150),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,7 +72,8 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                           const Text(
                             "Let's Sign you in !",
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: 35,
+                              fontFamily: 'Poppins bold',
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -99,28 +107,17 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                               },
                               child: const Text(
                                 'Forgot Password?',
-                                style: TextStyle(color: Colors.blue),
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                           Break(10),
                           ElevatedButton(
                             onPressed: _performLogin,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromRGBO(
-                                  0, 122, 255, 100), // Button color
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 50,
-                                  vertical: 15), // Bigger button
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(30), // Rounded button
-                              ),
-                            ),
-                            child: const Text(
-                              'Login',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: const Text('Login'),
                           ),
                         ],
                       ),
@@ -140,7 +137,10 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                   children: [
                     TextSpan(
                       text: 'Register',
-                      style: const TextStyle(color: Colors.blue),
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:ailav/common/logo_common.dart';
+import 'package:ailav/core/common/logo_common.dart';
 import 'package:ailav/view/login_screen_view.dart';
 import 'package:flutter/material.dart';
 

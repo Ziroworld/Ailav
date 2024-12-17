@@ -1,3 +1,4 @@
+import 'package:ailav/core/theme/get_application_theme.dart';
 import 'package:ailav/view/splash_screen_view.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +8,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-      ),
+      theme: getApplicationTheme(),
       debugShowCheckedModeBanner: false,
       title: "Ailav",
       home: const SplashScreenView(),
     );
   }
+
+  
 }
