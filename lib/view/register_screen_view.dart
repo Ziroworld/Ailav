@@ -1,8 +1,10 @@
+import 'package:ailav/core/common/break_common.dart';
+import 'package:ailav/core/common/logo_common.dart'; // Assuming this is where Logo is imported
+import 'package:ailav/core/common/textfield_commoner.dart';
 import 'package:ailav/view/login_screen_view.dart';
+import 'package:ailav/view/terms_and_condition_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ailav/core/common/break_common.dart';
-import 'package:ailav/core/common/textfield_commoner.dart';
 
 class RegisterScreenView extends StatelessWidget {
   const RegisterScreenView({super.key});
@@ -22,30 +24,37 @@ class RegisterScreenView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      // Logo Image with custom alignment
+                      Transform.translate(
+                        offset: const Offset(0, -00), // Adjust image position
+                        child: const Logo(height: 150),
+                      ),
+                      Break(20), // Space below the logo
+
                       const Text(
-                        'Lets Register Account',
+                        'Setup your Account Details',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                      Break(40), // Space below the title
+                      Break(10), // Space below the title
+
+                      const Text(
+                        'Please enter the correct details below.',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Break(40), // Space below the small text
+
                       const Textfield(
                         obscureText: false,
                         text: 'Username',
                       ),
                       Break(20), // Space between fields
-                      const Textfield(
-                        obscureText: false,
-                        text: 'First Name',
-                      ),
-                      Break(20),
-                      const Textfield(
-                        obscureText: false,
-                        text: 'Last Name',
-                      ),
-                      Break(20),
                       const Textfield(
                         obscureText: false,
                         text: 'Email',
@@ -85,10 +94,19 @@ class RegisterScreenView extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text: 'terms and conditions',
-                                    style: const TextStyle(color: Colors.blue),
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        // Handle terms and conditions tap
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const TermsAndConditionView(),
+                                          ),
+                                        );
                                       },
                                   ),
                                 ],
@@ -117,6 +135,39 @@ class RegisterScreenView extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
+                      Break(20), // Space before "or sign in with"
+
+                      // "or sign in with" text
+                      const Text(
+                        'or sign in with',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Break(20), // Space below the text
+
+                      // Google Sign-In Button
+                      ElevatedButton(
+                        onPressed: () {
+                          // Handle Google sign-in logic
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white, // White button
+                          padding: EdgeInsets.zero, // Remove padding
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(30), // Rounded button
+                          ),
+                          minimumSize: const Size(
+                              40, 40), // Adjust size to match the logo
+                        ),
+                        child: Image.asset(
+                          'assets/images/Google_logo.png', // Google logo
+                          height: 30,
+                          width: 30,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -128,12 +179,15 @@ class RegisterScreenView extends StatelessWidget {
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: 'Already have a account? ',
+                  text: 'Already have an account? ',
                   style: const TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
                       text: 'Sign In',
-                      style: const TextStyle(color: Colors.blue),
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(

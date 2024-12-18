@@ -4,7 +4,7 @@ import 'package:ailav/core/common/textfield_commoner.dart';
 import 'package:ailav/model/auth_model.dart';
 import 'package:ailav/view/admin/admin_dashboard_view.dart';
 import 'package:ailav/view/client/client_homepage_view.dart';
-import 'package:ailav/view/forget_password_view.dart';
+import 'package:ailav/view/verify_email_view.dart';
 import 'package:ailav/view/register_screen_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -51,20 +51,17 @@ class _LoginScreenViewState extends State<LoginScreenView> {
       body: SafeArea(
         child: Column(
           children: [
-            // const Logo(height: 150),
-            const Align(
-              alignment: Alignment(
-                  0.0, 200), // X = 0.0 (center), Y = -0.5 (higher position)
-              child: Logo(height: 150),
-            ),
             Expanded(
               child: Center(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
                     children: [
-                      // Break(20),
-                      // const Logo(height: 150),
+                      Transform.translate(
+                        offset:
+                            const Offset(0, -50), // Move it 50 pixels higher
+                        child: const Logo(height: 150),
+                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,7 +98,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const ForgotPasswordScreen(),
+                                        const VerifyEmailView(),
                                   ),
                                 );
                               },
@@ -117,7 +114,12 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                           Break(10),
                           ElevatedButton(
                             onPressed: _performLogin,
-                            child: const Text('Login'),
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white, // Ensure text is white
+                              ),
+                            ),
                           ),
                         ],
                       ),
