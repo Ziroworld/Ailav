@@ -25,6 +25,13 @@ class VerifyOtpScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Transform.translate(
+                  offset: const Offset(0, -20), 
+                  child: Image.asset(
+                    "assets/images/otp_image.png",
+                    height: 80,
+                  ),
+                ),
                 const Text(
                   'Verify OTP',
                   style: TextStyle(

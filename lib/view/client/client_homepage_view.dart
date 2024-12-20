@@ -1,7 +1,7 @@
-import 'package:ailav/view/client/bottom_navigation/aboutus_screen_view.dart';
 import 'package:ailav/view/client/bottom_navigation/cart_screen_view.dart';
 import 'package:ailav/view/client/bottom_navigation/home_screen_view.dart';
 import 'package:ailav/view/client/bottom_navigation/profile_screen_view.dart';
+import 'package:ailav/view/client/bottom_navigation/setting_screen_view.dart';
 import 'package:flutter/material.dart';
 
 class ClientHomepageView extends StatefulWidget {
@@ -12,14 +12,14 @@ class ClientHomepageView extends StatefulWidget {
 }
 
 class _ClientHomepageViewState extends State<ClientHomepageView> {
- int _selectedIndex = 0;
+  int _selectedIndex = 0;
 
   // List of screens for bottom navigation
   final List<Widget> _lstBottomScreen = [
     const HomeScreenView(),
     const CartScreenView(),
     const ProfileScreenView(),
-    const AboutusScreenView(),
+    const SettingScreenView(),
   ];
 
   @override
@@ -43,7 +43,7 @@ class _ClientHomepageViewState extends State<ClientHomepageView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined),
-            label: 'About Us',
+            label: 'Setting',
           ),
         ],
         currentIndex: _selectedIndex,
