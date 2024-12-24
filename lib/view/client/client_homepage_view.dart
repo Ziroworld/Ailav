@@ -43,7 +43,7 @@ class _ClientHomepageViewState extends State<ClientHomepageView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined),
-            label: 'Setting',
+            label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,

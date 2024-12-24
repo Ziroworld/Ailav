@@ -43,7 +43,7 @@ class _AdminDashboardViewState extends State<AdminDashboardView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined),
-            label: 'About Us',
+            label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,

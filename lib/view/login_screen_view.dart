@@ -4,8 +4,8 @@ import 'package:ailav/core/common/textfield_commoner.dart';
 import 'package:ailav/model/auth_model.dart';
 import 'package:ailav/view/admin/admin_dashboard_view.dart';
 import 'package:ailav/view/client/client_homepage_view.dart';
-import 'package:ailav/view/verify_email_view.dart';
 import 'package:ailav/view/register_screen_view.dart';
+import 'package:ailav/view/verify_email_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
