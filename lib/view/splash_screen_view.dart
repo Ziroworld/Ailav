@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:ailav/common/logo_common.dart';
-import 'package:ailav/view/login_screen_view.dart';
+
+import 'package:ailav/core/common/logo_common.dart';
+import 'package:ailav/view/on_boarding_screen_view.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenView extends StatelessWidget {
@@ -15,7 +16,7 @@ class SplashScreenView extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const LoginScreenView(),
+            builder: (context) => const OnboardingScreen(),
           ),
         );
       },

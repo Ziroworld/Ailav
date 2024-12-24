@@ -1,8 +1,8 @@
 import 'package:ailav/core/common/break_common.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreenView extends StatelessWidget {
-  const ProfileScreenView({super.key});
+class SettingScreenView extends StatelessWidget {
+  const SettingScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class ProfileScreenView extends StatelessWidget {
         child: Column(
           children: [
             const Text(
-              'Profile',
+              'Setting',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Break(10),

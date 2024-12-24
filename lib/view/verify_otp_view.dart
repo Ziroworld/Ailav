@@ -1,4 +1,5 @@
-import 'package:ailav/view/success_screen_view.dart';
+import 'package:ailav/core/common/break_common.dart';
+import 'package:ailav/view/change_password_view.dart';
 import 'package:flutter/material.dart';
 
 class VerifyOtpScreen extends StatelessWidget {
@@ -7,6 +8,14 @@ class VerifyOtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
@@ -16,15 +25,32 @@ class VerifyOtpScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Transform.translate(
+                  offset: const Offset(0, -20), 
+                  child: Image.asset(
+                    "assets/images/otp_image.png",
+                    height: 80,
+                  ),
+                ),
                 const Text(
                   'Verify OTP',
                   style: TextStyle(
                     fontSize: 28,
+                    fontFamily: "Poppins bold",
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 40),
+                Break(20),
+                const Text(
+                  'Enter the OTP code that is send to your verified Email address.',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
+                Break(40),
                 const TextField(
                   decoration: InputDecoration(
                     labelText: 'Enter OTP',
@@ -35,13 +61,13 @@ class VerifyOtpScreen extends StatelessWidget {
                         EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   ),
                 ),
-                const SizedBox(height: 30),
+                Break(30),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SuccessScreen(),
+                        builder: (context) => const ChangePasswordView(),
                       ),
                     );
                   },
@@ -58,6 +84,7 @@ class VerifyOtpScreen extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
+                      fontFamily: 'Poppins bold',
                       fontWeight: FontWeight.bold,
                     ),
                   ),

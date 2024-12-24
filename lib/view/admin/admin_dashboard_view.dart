@@ -1,7 +1,7 @@
-import 'package:ailav/view/admin/bottom_navigation/aboutus_screen_view.dart';
-import 'package:ailav/view/admin/bottom_navigation/cart_screen_view.dart';
+import 'package:ailav/view/admin/bottom_navigation/setting_screen_view.dart';
+import 'package:ailav/view/admin/bottom_navigation/order_screen_view.dart';
 import 'package:ailav/view/admin/bottom_navigation/home_screen_view.dart';
-import 'package:ailav/view/admin/bottom_navigation/profile_screen_view.dart';
+import 'package:ailav/view/admin/bottom_navigation/user_screen_view.dart';
 import 'package:flutter/material.dart';
 
 class AdminDashboardView extends StatefulWidget {
@@ -17,9 +17,9 @@ class _AdminDashboardViewState extends State<AdminDashboardView> {
   // List of screens for bottom navigation
   final List<Widget> _lstBottomScreen = [
     const HomeScreenView(),
-    const CartScreenView(),
-    const ProfileScreenView(),
-    const AboutusScreenView(),
+    const OrderScreenView(),
+    const UserScreenView(),
+    const SettingScreenView(),
   ];
 
   @override
@@ -35,15 +35,15 @@ class _AdminDashboardViewState extends State<AdminDashboardView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopify_rounded),
-            label: 'Cart',
+            label: 'Order',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_2_outlined),
-            label: 'Profile',
+            label: 'User',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined),
-            label: 'About Us',
+            label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,

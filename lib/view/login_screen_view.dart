@@ -1,11 +1,11 @@
-import 'package:ailav/common/break_common.dart';
-import 'package:ailav/common/logo_common.dart';
-import 'package:ailav/common/textfield_commoner.dart';
+import 'package:ailav/core/common/break_common.dart';
+import 'package:ailav/core/common/logo_common.dart';
+import 'package:ailav/core/common/textfield_commoner.dart';
 import 'package:ailav/model/auth_model.dart';
 import 'package:ailav/view/admin/admin_dashboard_view.dart';
 import 'package:ailav/view/client/client_homepage_view.dart';
-import 'package:ailav/view/forget_password_view.dart';
 import 'package:ailav/view/register_screen_view.dart';
+import 'package:ailav/view/verify_email_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +57,11 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
                     children: [
-                      const Logo(height: 200),
+                      Transform.translate(
+                        offset:
+                            const Offset(0, -50), // Move it 50 pixels higher
+                        child: const Logo(height: 150),
+                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,7 +69,8 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                           const Text(
                             "Let's Sign you in !",
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: 35,
+                              fontFamily: 'Poppins bold',
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -93,33 +98,27 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const ForgotPasswordScreen(),
+                                        const VerifyEmailView(),
                                   ),
                                 );
                               },
                               child: const Text(
                                 'Forgot Password?',
-                                style: TextStyle(color: Colors.blue),
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                           Break(10),
                           ElevatedButton(
                             onPressed: _performLogin,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromRGBO(
-                                  0, 122, 255, 100), // Button color
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 50,
-                                  vertical: 15), // Bigger button
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(30), // Rounded button
-                              ),
-                            ),
                             child: const Text(
                               'Login',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                color: Colors.white, // Ensure text is white
+                              ),
                             ),
                           ),
                         ],
@@ -140,7 +139,10 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                   children: [
                     TextSpan(
                       text: 'Register',
-                      style: const TextStyle(color: Colors.blue),
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(
