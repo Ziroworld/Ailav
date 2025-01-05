@@ -1,7 +1,7 @@
 import 'package:ailav/core/common/break_common.dart';
 import 'package:ailav/core/common/logo_common.dart'; // Assuming this is where Logo is imported
 import 'package:ailav/core/common/textfield_commoner.dart';
-import 'package:ailav/view/login_screen_view.dart';
+import 'package:ailav/features/auth/presentation/view/login_screen_view.dart';
 import 'package:ailav/view/terms_and_condition_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

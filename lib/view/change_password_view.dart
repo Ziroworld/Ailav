@@ -1,6 +1,6 @@
 import 'package:ailav/core/common/break_common.dart';
 import 'package:ailav/core/common/textfield_commoner.dart';
-import 'package:ailav/view/success_screen_view.dart';
+import 'package:ailav/core/success/success_screen_view.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordView extends StatefulWidget {

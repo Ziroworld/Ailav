@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:ailav/core/common/logo_common.dart';
-import 'package:ailav/view/on_boarding_screen_view.dart';
+import 'package:ailav/features/splash-onboarding/presentation/view/on_boarding_screen_view.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenView extends StatelessWidget {

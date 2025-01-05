@@ -1,4 +1,4 @@
-import 'package:ailav/myapp.dart';
+import 'package:ailav/app/myapp.dart';
 import 'package:flutter/material.dart';
 
 void main() {
