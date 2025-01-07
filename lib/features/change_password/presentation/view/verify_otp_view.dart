@@ -1,5 +1,5 @@
 import 'package:ailav/core/common/break_common.dart';
-import 'package:ailav/view/change_password_view.dart';
+import 'package:ailav/features/change_password/presentation/view/change_password_view.dart';
 import 'package:flutter/material.dart';
 
 class VerifyOtpScreen extends StatelessWidget {
