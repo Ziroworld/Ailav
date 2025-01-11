@@ -9,7 +9,7 @@ class SuccessScreen extends StatelessWidget {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreenView()),
+        MaterialPageRoute(builder: (context) =>  LoginScreenView()),
         (route) => false, // Removes all previous routes
       );
     });

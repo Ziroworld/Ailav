@@ -17,7 +17,7 @@ class VerifyEmailView extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const LoginScreenView()),
+              MaterialPageRoute(builder: (context) => LoginScreenView()),
             );
           },
         ),
