@@ -1,14 +1,14 @@
 part of 'login_bloc.dart';
 
-class LoginState extends Equatable {
+class LoginState  {
   final bool isLoading;
   final bool isSuccess;
-  final String? userRole;
+  // final String? userRole;
 
   const LoginState({
     required this.isLoading,
     required this.isSuccess,
-    this.userRole,
+    // this.userRole,
   });
 
   factory LoginState.initial() {
@@ -23,10 +23,7 @@ class LoginState extends Equatable {
     return LoginState(
       isLoading: isLoading ?? this.isLoading,
       isSuccess: isSuccess ?? this.isSuccess,
-      userRole: userRole ?? this.userRole,
+      // userRole: userRole ?? this.userRole,
     );
   }
-
-  @override
-  List<Object?> get props => [isLoading, isSuccess, userRole];
 }

@@ -19,7 +19,7 @@ class LoginScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => LoginBloc(),
+      create: (_) => getIt<LoginBloc>(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -123,7 +123,7 @@ class LoginScreenView extends StatelessWidget {
                                                       content:
                                                           Text(errorMessage)),
                                                 );
-                                              },
+                                              }, context: context,
                                             ),
                                           );
                                     },

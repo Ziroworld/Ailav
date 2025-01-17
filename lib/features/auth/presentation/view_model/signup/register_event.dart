@@ -8,20 +8,26 @@ abstract class RegisterEvent extends Equatable {
 }
 
 class RegisterSubmittedEvent extends RegisterEvent {
+  final BuildContext context;
   final String username;
   final String email;
   final String phoneNumber;
   final String password;
   final String confirmPassword;
+  final String name;
+  final String age;
   final Function() onSuccess;
   final Function(String errorMessage) onFailure;
 
   const RegisterSubmittedEvent({
+    required this.context,
     required this.username,
     required this.email,
     required this.phoneNumber,
     required this.password,
     required this.confirmPassword,
+    required this.name,
+    required this.age,
     required this.onSuccess,
     required this.onFailure,
   });

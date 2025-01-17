@@ -1,5 +1,7 @@
 import 'package:ailav/features/auth/presentation/view/login_screen_view.dart';
+import 'package:ailav/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -85,10 +87,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 alignment: Alignment.bottomLeft,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>  LoginScreenView(),
+                    final loginBloc = context.read<LoginBloc>();
+                    loginBloc.add(
+                      NavigateRegisterEvent(
+                        onNavigate: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider.value(
+                                value: loginBloc,
+                                child: LoginScreenView(),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },
