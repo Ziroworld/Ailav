@@ -1,11 +1,22 @@
+import 'dart:io';
+
 import 'package:ailav/core/common/break_common.dart';
 import 'package:ailav/features/auth/presentation/view/login_screen_view.dart';
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class RegisterScreenView extends StatelessWidget {
+class RegisterScreenView extends StatefulWidget {
+  const RegisterScreenView({super.key});
+
+  @override
+  State<RegisterScreenView> createState() => _RegisterScreenViewState();
+}
+
+class _RegisterScreenViewState extends State<RegisterScreenView> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -15,7 +26,62 @@ class RegisterScreenView extends StatelessWidget {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  RegisterScreenView({super.key});
+  final _key = GlobalKey<FormState>();
+
+  File? _image;
+
+  // Check for camera permission
+  Future<void> checkCameraPermission() async {
+    if (await Permission.camera.request().isRestricted ||
+        await Permission.camera.request().isDenied) {
+      await Permission.camera.request();
+    }
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final pickedFile = await ImagePicker().pickImage(source: source);
+      if (pickedFile != null) {
+        setState(() {
+          _image = File(pickedFile.path);
+          // Send image to server
+          // context.read<RegisterBloc>().add(
+          // UploadImage(file: _image!),
+          // );
+        });
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  void _showImagePickerOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera),
+              title: const Text('Camera'),
+              onTap: () {
+                _pickImage(ImageSource.camera);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.image),
+              title: const Text('Gallery'),
+              onTap: () {
+                _pickImage(ImageSource.gallery);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +96,24 @@ class RegisterScreenView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
                     children: [
-                      Break(100),
+                      Break(60),
+                      // Profile Picture Picker
+                      GestureDetector(
+                        onTap: () => _showImagePickerOptions(context),
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: _image != null
+                              ? FileImage(_image!)
+                              : const AssetImage(
+                                      'assets/images/profile_placeholder.png')
+                                  as ImageProvider,
+                          child: _image == null
+                              ? const Icon(Icons.camera_alt,
+                                  size: 40, color: Colors.white)
+                              : null,
+                        ),
+                      ),
+                      Break(20),
                       const Text(
                         'Setup your Account Details',
                         style: TextStyle(

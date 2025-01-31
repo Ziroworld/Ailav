@@ -7,6 +7,7 @@ import 'package:ailav/features/auth/presentation/view_model/login/login_bloc.dar
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:ailav/features/home/presentation/view_model/home_cubit.dart';
 import 'package:ailav/features/onboarding/presentation/view_model/on_boarding_screen_cubit.dart';
+import 'package:ailav/features/splash/presentation/view_model/splash_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -14,15 +15,22 @@ final getIt = GetIt.instance;
 Future<void> initDependencies() async {
   await _initHiveService();
 
-  await _initRegisterDependencies();
   await _initLoginDependencies();
+  await _initRegisterDependencies();
   await _initOnboardingDependencies();
+  await _initSplashDependencies();
   await _initHomeDependencies();
+}
+
+_initSplashDependencies() {
+  getIt.registerFactory<SplashCubit>(
+      () => SplashCubit(getIt<OnBoardingScreenCubit>()));
 }
 
 _initHiveService() {
   getIt.registerLazySingleton<HiveService>(() => HiveService());
 }
+
 
 _initRegisterDependencies() {
   // init local data source
@@ -64,10 +72,9 @@ _initLoginDependencies() async {
   );
 }
 
-
 _initOnboardingDependencies() {
   getIt.registerFactory<OnBoardingScreenCubit>(
-    () => OnBoardingScreenCubit(getIt<LoginBloc>()),
+    () => OnBoardingScreenCubit(loginBloc: getIt<LoginBloc>()),
   );
 }
 
@@ -75,5 +82,4 @@ _initHomeDependencies() async {
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(),
   );
-  
 }

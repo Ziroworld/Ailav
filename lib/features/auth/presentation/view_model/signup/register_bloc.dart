@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:ailav/core/common/snackbar/my_snackbar.dart';
 import 'package:ailav/features/auth/domain/use_case/register_user_usecase.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
