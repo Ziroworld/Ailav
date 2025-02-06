@@ -1,11 +1,22 @@
+import 'dart:io';
+
 import 'package:ailav/core/common/break_common.dart';
 import 'package:ailav/features/auth/presentation/view/login_screen_view.dart';
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-class RegisterScreenView extends StatelessWidget {
+class RegisterScreenView extends StatefulWidget {
+  const RegisterScreenView({super.key});
+
+  @override
+  State<RegisterScreenView> createState() => _RegisterScreenViewState();
+}
+
+class _RegisterScreenViewState extends State<RegisterScreenView> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -15,7 +26,32 @@ class RegisterScreenView extends StatelessWidget {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  RegisterScreenView({super.key});
+  File? _image;
+
+  // Check for camera permission
+  Future<void> checkCameraPermission() async {
+    if (await Permission.camera.request().isRestricted ||
+        await Permission.camera.request().isDenied) {
+      await Permission.camera.request();
+    }
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final pickedFile = await ImagePicker().pickImage(source: source);
+      if (pickedFile != null) {
+        setState(() {
+          _image = File(pickedFile.path);
+          // Send image to server
+          context.read<RegisterBloc>().add(
+                UploadImage(file: _image!),
+              );
+        });
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +66,49 @@ class RegisterScreenView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(
                     children: [
-                      Break(100),
+                      Break(60),
+                      // Profile Picture Picker
+                      GestureDetector(
+                        onTap: () => {
+                          showModalBottomSheet(
+                            useSafeArea: true,
+                            context: context,
+                            builder: (context) => Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      checkCameraPermission();
+                                      _pickImage(ImageSource.camera);
+                                      // Navigator.pop(context);
+                                      // Upload image it is not null
+                                    },
+                                    icon: const Icon(Icons.camera),
+                                    label: const Text('Camera'),
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.image),
+                                    label: const Text('Gallery'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        },
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: _image != null
+                              ? FileImage(_image!)
+                              : const AssetImage(
+                                      'assets/images/profile_placeholder.png')
+                                  as ImageProvider,
+                        ),
+                      ),
+                      Break(20),
                       const Text(
                         'Setup your Account Details',
                         style: TextStyle(
@@ -119,6 +197,9 @@ class RegisterScreenView extends StatelessWidget {
                             onPressed: state.isLoading
                                 ? null
                                 : () {
+                                    final registerState =
+                                        context.read<RegisterBloc>().state;
+                                    final imageName = registerState.imageName;
                                     context.read<RegisterBloc>().add(
                                           RegisterSubmittedEvent(
                                             name: _nameController.text.trim(),
@@ -133,6 +214,7 @@ class RegisterScreenView extends StatelessWidget {
                                             confirmPassword:
                                                 _confirmPasswordController.text
                                                     .trim(),
+                                            image: imageName,
                                             onSuccess: () {},
                                             onFailure: (errorMessage) {
                                               ScaffoldMessenger.of(context)
@@ -179,6 +261,7 @@ class RegisterScreenView extends StatelessWidget {
                           width: 30,
                         ),
                       ),
+                      Break(10),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: RichText(

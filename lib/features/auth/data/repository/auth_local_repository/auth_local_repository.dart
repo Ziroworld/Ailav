@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ailav/core/error/failure.dart';
 import 'package:ailav/features/auth/data/data_source/local_data_source/auth_local_data_source.dart';
 import 'package:ailav/features/auth/domain/entity/auth_entity.dart';
@@ -38,5 +40,11 @@ class AuthLocalRepository implements IAuthRepository {
     } catch (e) {
       return Left(LocalDatabaseFailure(message: e.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, String>> uploadProfilePicture(File file) {
+    // TODO: implement uploadProfilePicture
+    throw UnimplementedError();
   }
 }

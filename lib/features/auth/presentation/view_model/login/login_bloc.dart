@@ -75,7 +75,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  FutureOr<void> _onNavigateRegister(
+  _onNavigateRegister(
       NavigateRegisterEvent event, Emitter<LoginState> emit) {
     event.onNavigate();
   }

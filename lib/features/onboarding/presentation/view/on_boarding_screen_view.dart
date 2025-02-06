@@ -1,5 +1,4 @@
-import 'package:ailav/features/auth/presentation/view/login_screen_view.dart';
-import 'package:ailav/features/auth/presentation/view_model/login/login_bloc.dart';
+import 'package:ailav/features/onboarding/presentation/view_model/on_boarding_screen_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -87,22 +86,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 alignment: Alignment.bottomLeft,
                 child: TextButton(
                   onPressed: () {
-                    final loginBloc = context.read<LoginBloc>();
-                    loginBloc.add(
-                      NavigateRegisterEvent(
-                        onNavigate: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlocProvider.value(
-                                value: loginBloc,
-                                child: LoginScreenView(),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                    context
+                        .read<OnBoardingScreenCubit>()
+                        .navigateToLogin(context);
                   },
                   child: const Text(
                     "Skip",
