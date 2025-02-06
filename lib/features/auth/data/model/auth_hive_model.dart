@@ -22,7 +22,6 @@ class AuthHiveModel extends Equatable {
   final String username;
   @HiveField(6)
   final String password;
-  
 
   AuthHiveModel({
     String? userId,
@@ -44,6 +43,19 @@ class AuthHiveModel extends Equatable {
         username = '',
         password = '';
 
+  AuthEntity toEnttity() {
+    return AuthEntity(
+      userId: userId,
+      name: name,
+      email: email,
+      phone: phone,
+      age: int.tryParse(age) ?? 0,
+      username: username,
+      password: password,
+      image: null,
+    );
+  }
+
   // to Entity
   factory AuthHiveModel.fromEntity(AuthEntity entity) {
     return AuthHiveModel(
@@ -59,12 +71,12 @@ class AuthHiveModel extends Equatable {
 
   @override
   List<Object?> get props => [
-    userId,
-    name,
-    age,
-    email,
-    phone,
-    username,
-    password,
-  ];
+        userId,
+        name,
+        age,
+        email,
+        phone,
+        username,
+        password,
+      ];
 }

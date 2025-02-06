@@ -14,6 +14,15 @@ class RegisterUserParams extends Equatable {
   final String password;
   final String? image;
 
+  const RegisterUserParams.empty()
+      : name = '_empty.string',
+        age = 0,
+        email = '_empty.string',
+        phone = '_empty.string',
+        username = '_empty.string',
+        password = '_empty.string',
+        image = null;
+
   const RegisterUserParams({
     required this.username,
     required this.email,
@@ -24,7 +33,6 @@ class RegisterUserParams extends Equatable {
     this.image,
   });
 
-  // initialize the constructor
   const RegisterUserParams.initial({
     required this.name,
     required this.age,

@@ -26,6 +26,16 @@ class AuthApiModel extends Equatable {
       required this.password,
       required this.image});
 
+  const AuthApiModel.initial()
+      : userId = '',
+        name = '',
+        age = 0,
+        email = '',
+        phone = '',
+        username = '',
+        password = '',
+        image = '';
+
   AuthEntity toEnttity() {
     return AuthEntity(
       userId: userId,

@@ -12,7 +12,6 @@ class UploadImageParams {
     required this.file,
   });
 }
-
 class UploadImageUsecase
     implements UsecaseWithParams<String, UploadImageParams> {
   final IAuthRepository _repository;
