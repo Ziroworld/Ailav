@@ -26,8 +26,6 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  final _key = GlobalKey<FormState>();
-
   File? _image;
 
   // Check for camera permission
@@ -45,42 +43,14 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
         setState(() {
           _image = File(pickedFile.path);
           // Send image to server
-          // context.read<RegisterBloc>().add(
-          // UploadImage(file: _image!),
-          // );
+          context.read<RegisterBloc>().add(
+                UploadImage(file: _image!),
+              );
         });
       }
     } catch (e) {
       debugPrint(e.toString());
     }
-  }
-
-  void _showImagePickerOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => SafeArea(
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.camera),
-              title: const Text('Camera'),
-              onTap: () {
-                _pickImage(ImageSource.camera);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.image),
-              title: const Text('Gallery'),
-              onTap: () {
-                _pickImage(ImageSource.gallery);
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
@@ -99,7 +69,36 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                       Break(60),
                       // Profile Picture Picker
                       GestureDetector(
-                        onTap: () => _showImagePickerOptions(context),
+                        onTap: () => {
+                          showModalBottomSheet(
+                            useSafeArea: true,
+                            context: context,
+                            builder: (context) => Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      checkCameraPermission();
+                                      _pickImage(ImageSource.camera);
+                                      // Navigator.pop(context);
+                                      // Upload image it is not null
+                                    },
+                                    icon: const Icon(Icons.camera),
+                                    label: const Text('Camera'),
+                                  ),
+                                  ElevatedButton.icon(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.image),
+                                    label: const Text('Gallery'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        },
                         child: CircleAvatar(
                           radius: 50,
                           backgroundImage: _image != null
@@ -107,10 +106,6 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                               : const AssetImage(
                                       'assets/images/profile_placeholder.png')
                                   as ImageProvider,
-                          child: _image == null
-                              ? const Icon(Icons.camera_alt,
-                                  size: 40, color: Colors.white)
-                              : null,
                         ),
                       ),
                       Break(20),
@@ -202,6 +197,9 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                             onPressed: state.isLoading
                                 ? null
                                 : () {
+                                    final registerState =
+                                        context.read<RegisterBloc>().state;
+                                    final imageName = registerState.imageName;
                                     context.read<RegisterBloc>().add(
                                           RegisterSubmittedEvent(
                                             name: _nameController.text.trim(),
@@ -216,6 +214,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                                             confirmPassword:
                                                 _confirmPasswordController.text
                                                     .trim(),
+                                            image: imageName,
                                             onSuccess: () {},
                                             onFailure: (errorMessage) {
                                               ScaffoldMessenger.of(context)
@@ -262,6 +261,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                           width: 30,
                         ),
                       ),
+                      Break(10),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: RichText(

@@ -6,6 +6,18 @@ abstract class RegisterEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
+class TermsAcceptedEvent extends RegisterEvent {
+  final bool isAccepted;
+
+  const TermsAcceptedEvent({required this.isAccepted});
+}
+class UploadImage extends RegisterEvent {
+  final File file;
+
+  const UploadImage({
+    required this.file,
+  });
+}
 
 class RegisterSubmittedEvent extends RegisterEvent {
   final BuildContext context;
@@ -16,6 +28,7 @@ class RegisterSubmittedEvent extends RegisterEvent {
   final String confirmPassword;
   final String name;
   final String age;
+  final String? image;
   final Function() onSuccess;
   final Function(String errorMessage) onFailure;
 
@@ -30,11 +43,7 @@ class RegisterSubmittedEvent extends RegisterEvent {
     required this.age,
     required this.onSuccess,
     required this.onFailure,
+    this.image
   });
 }
 
-class TermsAcceptedEvent extends RegisterEvent {
-  final bool isAccepted;
-
-  const TermsAcceptedEvent({required this.isAccepted});
-}
