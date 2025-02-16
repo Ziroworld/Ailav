@@ -13,23 +13,6 @@ class ClientHomepageView extends StatelessWidget {
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('Home'),
-              centerTitle: true,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.logout),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Logging out...'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
             body: state.views[state.selectedIndex],
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
