@@ -2,7 +2,6 @@ import 'package:ailav/features/setting/presentation/view_model/setting_cubit.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class SettingScreenView extends StatelessWidget {
   const SettingScreenView({super.key});
 
@@ -25,15 +24,25 @@ class SettingScreenView extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            _buildListTile(Icons.feedback_outlined, "Feedback", () {}),
-            _buildListTile(Icons.question_answer_outlined, "FAQ’s", () {}),
-            _buildListTile(Icons.info_outline, "About Ailav", () {}),
-            _buildListTile(Icons.attach_money_outlined, "Delivery Charge", () {}),
-            _buildListTile(
-                Icons.description_outlined, "Terms and Conditions", () {
-              settingCubit.navigateToTermsPage(context);}),
-
-            _buildListTile(Icons.privacy_tip_outlined, "Privacy Policy", () {}),
+            _buildListTile(Icons.feedback_outlined, "Feedback", () {
+              settingCubit.navigateToFeedbackPage(context);
+            }),
+            _buildListTile(Icons.question_answer_outlined, "FAQ’s", () {
+              settingCubit.navigateToFaqPage(context);
+            }),
+            _buildListTile(Icons.info_outline, "About Ailav", () {
+              settingCubit.navigateToAboutPage(context);
+            }),
+            _buildListTile(Icons.attach_money_outlined, "Delivery Charge", () {
+              settingCubit.navigateToDeliveryPage(context);
+            }),
+            _buildListTile(Icons.description_outlined, "Terms and Conditions",
+                () {
+              settingCubit.navigateToTermsPage(context);
+            }),
+            _buildListTile(Icons.privacy_tip_outlined, "Privacy Policy", () {
+              settingCubit.navigateToPrivacyPage(context);
+            }),
             const Spacer(),
             _buildSocialIcons(),
             const SizedBox(height: 20),
