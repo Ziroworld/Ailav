@@ -1,6 +1,8 @@
 import 'package:ailav/app/shared_prefs/token_shared_prefs.dart';
 import 'package:ailav/core/network/api_service.dart';
 import 'package:ailav/core/network/hive_service.dart';
+import 'package:ailav/features/FAQ/presentation/view_model/faq_cubit.dart';
+import 'package:ailav/features/about_us/presentation/view_model/about_us_cubit.dart';
 import 'package:ailav/features/auth/data/data_source/local_data_source/auth_local_data_source.dart';
 import 'package:ailav/features/auth/data/data_source/remote_data_source/auth_remote_data_source.dart';
 import 'package:ailav/features/auth/data/repository/auth_local_repository/auth_local_repository.dart';
@@ -10,8 +12,11 @@ import 'package:ailav/features/auth/domain/use_case/register_user_usecase.dart';
 import 'package:ailav/features/auth/domain/use_case/upload_image_usercase.dart';
 import 'package:ailav/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:ailav/features/delivery_charge/presentation/view_model/delivery_charge_cubit.dart';
+import 'package:ailav/features/feedback/presentation/view_model/feedback_cubit.dart';
 import 'package:ailav/features/home/presentation/view_model/home_cubit.dart';
 import 'package:ailav/features/onboarding/presentation/view_model/on_boarding_screen_cubit.dart';
+import 'package:ailav/features/privacy_policy/presentation/view_model/privacy_policy_cubit.dart';
 import 'package:ailav/features/setting/presentation/view_model/setting_cubit.dart';
 import 'package:ailav/features/splash/presentation/view_model/splash_cubit.dart';
 import 'package:ailav/features/terms_and_condition/presentation/view_model/terms_and_condition_cubit.dart';
@@ -34,12 +39,34 @@ Future<void> initDependencies() async {
 }
 
 _initSettingsDependencies() {
+  getIt.registerFactory<FeedbackCubit>(
+    () => FeedbackCubit(),
+  );
+  getIt.registerFactory<FaqCubit>(
+    () => FaqCubit(),
+  );
+  getIt.registerFactory<AboutUsCubit>(
+    () => AboutUsCubit(),
+  );
+  getIt.registerFactory<DeliveryChargeCubit>(
+    () => DeliveryChargeCubit(),
+  );
   getIt.registerFactory<TermsAndConditionCubit>(
     () => TermsAndConditionCubit(),
   );
+  getIt.registerFactory<PrivacyPolicyCubit>(
+    () => PrivacyPolicyCubit(),
+  );
 
   getIt.registerFactory<SettingCubit>(
-    () => SettingCubit(getIt<TermsAndConditionCubit>()),
+    () => SettingCubit(
+      getIt<FeedbackCubit>(),
+      getIt<FaqCubit>(),
+      getIt<AboutUsCubit>(),
+      getIt<DeliveryChargeCubit>(),
+      getIt<TermsAndConditionCubit>(),
+      getIt<PrivacyPolicyCubit>(),
+    ),
   );
 }
 

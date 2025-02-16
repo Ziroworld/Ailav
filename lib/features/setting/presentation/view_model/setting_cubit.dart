@@ -1,3 +1,13 @@
+import 'package:ailav/features/FAQ/presentation/view/faq_screen.dart';
+import 'package:ailav/features/FAQ/presentation/view_model/faq_cubit.dart';
+import 'package:ailav/features/about_us/presentation/view/about_us_screen.dart';
+import 'package:ailav/features/about_us/presentation/view_model/about_us_cubit.dart';
+import 'package:ailav/features/delivery_charge/presentation/view/delivery_charge_screen.dart';
+import 'package:ailav/features/delivery_charge/presentation/view_model/delivery_charge_cubit.dart';
+import 'package:ailav/features/feedback/presentation/view/feedback_screen.dart';
+import 'package:ailav/features/feedback/presentation/view_model/feedback_cubit.dart';
+import 'package:ailav/features/privacy_policy/presentation/view/privacy_policy_screen.dart';
+import 'package:ailav/features/privacy_policy/presentation/view_model/privacy_policy_cubit.dart';
 import 'package:ailav/features/terms_and_condition/presentation/view/terms_and_condition_view.dart';
 import 'package:ailav/features/terms_and_condition/presentation/view_model/terms_and_condition_cubit.dart';
 import 'package:equatable/equatable.dart';
@@ -7,9 +17,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'setting_state.dart';
 
 class SettingCubit extends Cubit<void> {
-  SettingCubit(this._termCubit) : super(null);
+  SettingCubit(
+    this._feedbackCubit,
+    this._faqCubit,
+    this._aboutUsCubit,
+    this._deliveryChargeCubit,
+    this._termCubit,
+    this._privacyPolicyCubit,
+  ) : super(null);
 
+  final FeedbackCubit _feedbackCubit;
+  final FaqCubit _faqCubit;
+  final AboutUsCubit _aboutUsCubit;
+  final DeliveryChargeCubit _deliveryChargeCubit;
   final TermsAndConditionCubit _termCubit;
+  final PrivacyPolicyCubit _privacyPolicyCubit;
 
   Future<void> navigateToTermsPage(BuildContext context) async {
     if (context.mounted) {
@@ -24,4 +46,75 @@ class SettingCubit extends Cubit<void> {
       );
     }
   }
+
+  Future<void> navigateToPrivacyPage(BuildContext context) async {
+    if (context.mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BlocProvider.value(
+            value: _privacyPolicyCubit,
+            child: const PrivacyPolicyView(),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> navigateToDeliveryPage(BuildContext context) async {
+    if (context.mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BlocProvider.value(
+            value: _deliveryChargeCubit,
+            child: const DeliveryChargeView(),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> navigateToAboutPage(BuildContext context) async {
+    if (context.mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BlocProvider.value(
+            value: _aboutUsCubit,
+            child: const AboutUsScreen(),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> navigateToFaqPage(BuildContext context) async {
+    if (context.mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BlocProvider.value(
+            value: _faqCubit,
+            child: const FaqScreen(),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> navigateToFeedbackPage(BuildContext context) async {
+    if (context.mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BlocProvider.value(
+            value: _feedbackCubit,
+            child: const FeedbackScreen(),
+          ),
+        ),
+      );
+    }
+  }
+  
 }
