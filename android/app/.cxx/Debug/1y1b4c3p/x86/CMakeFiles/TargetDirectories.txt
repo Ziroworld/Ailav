@@ -1,0 +1,2 @@
+R:/College data/Semester 5/Mobile_Application/ailav/android/app/.cxx/Debug/1y1b4c3p/x86/CMakeFiles/edit_cache.dir
+R:/College data/Semester 5/Mobile_Application/ailav/android/app/.cxx/Debug/1y1b4c3p/x86/CMakeFiles/rebuild_cache.dir

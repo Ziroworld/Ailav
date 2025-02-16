@@ -75,26 +75,28 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                             context: context,
                             builder: (context) => Padding(
                               padding: const EdgeInsets.all(20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  ElevatedButton.icon(
-                                    onPressed: () {
-                                      checkCameraPermission();
-                                      _pickImage(ImageSource.camera);
-                                      // Navigator.pop(context);
-                                      // Upload image it is not null
-                                    },
-                                    icon: const Icon(Icons.camera),
-                                    label: const Text('Camera'),
-                                  ),
-                                  ElevatedButton.icon(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.image),
-                                    label: const Text('Gallery'),
-                                  ),
-                                ],
+                              child: SingleChildScrollView(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ElevatedButton.icon(
+                                      onPressed: () {
+                                        checkCameraPermission();
+                                        _pickImage(ImageSource.camera);
+                                        // Navigator.pop(context);
+                                        // Upload image it is not null
+                                      },
+                                      icon: const Icon(Icons.camera),
+                                      label: const Text('Camera'),
+                                    ),
+                                    ElevatedButton.icon(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.image),
+                                      label: const Text('Gallery'),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           )
