@@ -14,11 +14,16 @@ import 'package:ailav/features/auth/presentation/view_model/login/login_bloc.dar
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:ailav/features/delivery_charge/presentation/view_model/delivery_charge_cubit.dart';
 import 'package:ailav/features/feedback/presentation/view_model/feedback_cubit.dart';
+import 'package:ailav/features/help/presentation/view_model/help_cubit.dart';
 import 'package:ailav/features/home/presentation/view_model/home_cubit.dart';
+import 'package:ailav/features/my_information/presentation/view_model/my_information_bloc.dart';
 import 'package:ailav/features/onboarding/presentation/view_model/on_boarding_screen_cubit.dart';
+import 'package:ailav/features/order_view/presentation/view_model/order_view_cubit.dart';
 import 'package:ailav/features/privacy_policy/presentation/view_model/privacy_policy_cubit.dart';
+import 'package:ailav/features/profile/presentation/view_model/profile_cubit.dart';
 import 'package:ailav/features/setting/presentation/view_model/setting_cubit.dart';
 import 'package:ailav/features/splash/presentation/view_model/splash_cubit.dart';
+import 'package:ailav/features/support/presentation/view_model/support_cubit.dart';
 import 'package:ailav/features/terms_and_condition/presentation/view_model/terms_and_condition_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -34,6 +39,7 @@ Future<void> initDependencies() async {
   await _initRegisterDependencies();
   await _initOnboardingDependencies();
   await _initSplashDependencies();
+  await _initProfileDependencies();
   await _initSettingsDependencies();
   await _initHomeDependencies();
 }
@@ -160,6 +166,34 @@ _initLoginDependencies() async {
 _initOnboardingDependencies() {
   getIt.registerFactory<OnBoardingScreenCubit>(
     () => OnBoardingScreenCubit(loginBloc: getIt<LoginBloc>()),
+  );
+}
+
+//==================PROFILE==========================//
+_initProfileDependencies() {
+  getIt.registerFactory<OrderViewCubit>(
+    () => OrderViewCubit(),
+  );
+
+  getIt.registerFactory<MyInformationBloc>(
+    () => MyInformationBloc(),
+  );
+
+  getIt.registerFactory<HelpCubit>(
+    () => HelpCubit(),
+  );
+
+  getIt.registerFactory<SupportCubit>(
+    () => SupportCubit(),
+  );
+
+  getIt.registerFactory<ProfileCubit>(
+    () => ProfileCubit(
+      orderViewCubit: getIt<OrderViewCubit>(),
+      myInformationBloc: getIt<MyInformationBloc>(),
+      help: getIt<HelpCubit>(),
+      support: getIt<SupportCubit>(),
+    ),
   );
 }
 

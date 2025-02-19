@@ -159,7 +159,7 @@ class LoginScreenView extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => BlocProvider(
                                   create: (_) => getIt<RegisterBloc>(),
-                                  child: RegisterScreenView(),
+                                  child: const RegisterScreenView(),
                                 ),
                               ),
                             );
