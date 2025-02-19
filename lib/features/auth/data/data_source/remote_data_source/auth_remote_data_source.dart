@@ -1,13 +1,17 @@
 import 'dart:io';
 
 import 'package:ailav/app/constants/api_endpoints.dart';
+import 'package:ailav/app/shared_prefs/user_shared_prefs.dart';
 import 'package:ailav/features/auth/data/data_source/auth_data_source.dart';
 import 'package:ailav/features/auth/domain/entity/auth_entity.dart';
+import 'package:ailav/features/auth/domain/use_case/login_usecase.dart';
 import 'package:dio/dio.dart';
 
 class AuthRemoteDataSource implements IAuthDataSource {
   final Dio _dio;
-  AuthRemoteDataSource(this._dio);
+  final UserSharedPrefs _userSharedPrefs;
+  AuthRemoteDataSource(this._dio, this._userSharedPrefs);
+
   @override
   Future<void> getCurrentUser() {
     // TODO: implement getCurrentUser
@@ -15,7 +19,7 @@ class AuthRemoteDataSource implements IAuthDataSource {
   }
 
   @override
-  Future<String> loginUser(String username, String password) async{
+  Future<AuthResponse> loginUser(String username, String password) async {
     try {
       Response response = await _dio.post(
         ApiEndpoints.login,
@@ -26,8 +30,9 @@ class AuthRemoteDataSource implements IAuthDataSource {
       );
 
       if (response.statusCode == 200) {
-        final str = response.data['token'];
-        return str;
+        final token = response.data['token'];
+        final userId = response.data['userId'];
+        return AuthResponse(token: token, userId: userId);
       } else {
         throw Exception(response.statusMessage);
       }
@@ -66,7 +71,7 @@ class AuthRemoteDataSource implements IAuthDataSource {
   }
 
   @override
-  Future<String> uploadProfilePicture(File file)async {
+  Future<String> uploadProfilePicture(File file) async {
     try {
       String fileName = file.path.split('/').last;
       FormData formData = FormData.fromMap(
@@ -84,13 +89,40 @@ class AuthRemoteDataSource implements IAuthDataSource {
       );
 
       if (response.statusCode == 200) {
-        // Extract the image name from the response
         final str = response.data['data'];
-
         return str;
       } else {
         throw Exception(response.statusMessage);
       }
+    } on DioException catch (e) {
+      throw Exception(e);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> updateUser(
+      String name, String email, int age, String phone) async {
+    try {
+      final userId = await _userSharedPrefs.getUserId();
+      userId.fold((l) => throw Exception(l), (r) async {
+        final response = await _dio.put(
+          "${ApiEndpoints.baseUrl}${ApiEndpoints.updateUser}/$r",
+          data: {
+            "name": name,
+            "email": email,
+            "age": age,
+            "phone": phone,
+          },
+        );
+
+        if (response.statusCode == 201) {
+          return;
+        } else {
+          throw Exception(response.statusMessage);
+        }
+      });
     } on DioException catch (e) {
       throw Exception(e);
     } catch (e) {

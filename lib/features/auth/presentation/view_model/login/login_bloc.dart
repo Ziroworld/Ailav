@@ -62,7 +62,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           color: Colors.red,
         );
       },
-      (token) {
+      (authResponse) {
+        print("ÖK");
         emit(state.copyWith(isLoading: false, isSuccess: true));
         add(
           NavigateHomeScreenEvent(
@@ -70,13 +71,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             destination: const ClientHomepageView(),
           ),
         );
-        //_homeCubit.setToken(token);
       },
     );
   }
 
-  _onNavigateRegister(
-      NavigateRegisterEvent event, Emitter<LoginState> emit) {
+  _onNavigateRegister(NavigateRegisterEvent event, Emitter<LoginState> emit) {
     event.onNavigate();
   }
 

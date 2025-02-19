@@ -1,4 +1,5 @@
 import 'package:ailav/app/shared_prefs/token_shared_prefs.dart';
+import 'package:ailav/app/shared_prefs/user_shared_prefs.dart';
 import 'package:ailav/core/network/api_service.dart';
 import 'package:ailav/core/network/hive_service.dart';
 import 'package:ailav/features/FAQ/presentation/view_model/faq_cubit.dart';
@@ -9,14 +10,15 @@ import 'package:ailav/features/auth/data/repository/auth_local_repository/auth_l
 import 'package:ailav/features/auth/data/repository/auth_remote_repository/auth_remote_repository.dart';
 import 'package:ailav/features/auth/domain/use_case/login_usecase.dart';
 import 'package:ailav/features/auth/domain/use_case/register_user_usecase.dart';
+import 'package:ailav/features/auth/domain/use_case/update_user_usecase.dart';
 import 'package:ailav/features/auth/domain/use_case/upload_image_usercase.dart';
 import 'package:ailav/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:ailav/features/auth/presentation/view_model/update_user/my_information_bloc.dart';
 import 'package:ailav/features/delivery_charge/presentation/view_model/delivery_charge_cubit.dart';
 import 'package:ailav/features/feedback/presentation/view_model/feedback_cubit.dart';
 import 'package:ailav/features/help/presentation/view_model/help_cubit.dart';
 import 'package:ailav/features/home/presentation/view_model/home_cubit.dart';
-import 'package:ailav/features/my_information/presentation/view_model/my_information_bloc.dart';
 import 'package:ailav/features/onboarding/presentation/view_model/on_boarding_screen_cubit.dart';
 import 'package:ailav/features/order_view/presentation/view_model/order_view_cubit.dart';
 import 'package:ailav/features/privacy_policy/presentation/view_model/privacy_policy_cubit.dart';
@@ -83,7 +85,13 @@ _initSplashDependencies() {
 
 Future<void> _initSharedPreferences() async {
   final sharedPreferences = await SharedPreferences.getInstance();
-  getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  getIt.registerLazySingleton<SharedPreferences>(
+    () => sharedPreferences,
+  );
+
+    getIt.registerLazySingleton<UserSharedPrefs>(
+    () => UserSharedPrefs(getIt<SharedPreferences>()),
+  );
 }
 
 _initApiService() {
@@ -106,7 +114,7 @@ _initRegisterDependencies() {
 
   // init remote data source
   getIt.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSource(getIt<Dio>()),
+    () => AuthRemoteDataSource(getIt<Dio>(), getIt<UserSharedPrefs>()),
   );
 
   // init local repository
@@ -151,6 +159,7 @@ _initLoginDependencies() async {
     () => LoginUseCase(
       getIt<AuthRemoteRepository>(),
       getIt<TokenSharedPrefs>(),
+      getIt<UserSharedPrefs>(),
     ),
   );
 
@@ -171,12 +180,20 @@ _initOnboardingDependencies() {
 
 //==================PROFILE==========================//
 _initProfileDependencies() {
+//===================Usecases========================//
+  getIt.registerLazySingleton<UpdateUserUsecase>(
+    () => UpdateUserUsecase(
+      getIt<AuthRemoteRepository>(),
+    ),
+  );
+
+  //===================Blocs and Cubits========================//
   getIt.registerFactory<OrderViewCubit>(
     () => OrderViewCubit(),
   );
 
   getIt.registerFactory<MyInformationBloc>(
-    () => MyInformationBloc(),
+    () => MyInformationBloc(updateUserUsecase: getIt<UpdateUserUsecase>()),
   );
 
   getIt.registerFactory<HelpCubit>(

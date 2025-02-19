@@ -4,6 +4,7 @@ import 'package:ailav/core/network/hive_service.dart';
 import 'package:ailav/features/auth/data/data_source/auth_data_source.dart';
 import 'package:ailav/features/auth/data/model/auth_hive_model.dart';
 import 'package:ailav/features/auth/domain/entity/auth_entity.dart';
+import 'package:ailav/features/auth/domain/use_case/login_usecase.dart';
 
 class AuthLocalDataSource implements IAuthDataSource {
   final HiveService _hiveService;
@@ -12,7 +13,7 @@ class AuthLocalDataSource implements IAuthDataSource {
 
   @override
   Future<AuthEntity> getCurrentUser() {
-    return Future.value( const AuthEntity(
+    return Future.value(const AuthEntity(
       userId: '',
       name: '',
       username: '',
@@ -21,15 +22,14 @@ class AuthLocalDataSource implements IAuthDataSource {
       phone: '',
       image: null,
       age: 19,
-
     ));
   }
 
   @override
-  Future<String> loginUser(String username, String password) async {
+  Future<AuthResponse> loginUser(String username, String password) async {
     try {
       await _hiveService.login(username, password);
-      return Future.value('Login successfully');
+      return Future.value(const AuthResponse(token: 'token', userId: 'userId'));
     } catch (e) {
       return Future.error('Login failed: $e');
     }
@@ -51,6 +51,12 @@ class AuthLocalDataSource implements IAuthDataSource {
   @override
   Future<String> uploadProfilePicture(File file) {
     // TODO: implement uploadProfilePicture
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> updateUser(String name, String email, int age, String phone) {
+    // TODO: implement updateUser
     throw UnimplementedError();
   }
 }

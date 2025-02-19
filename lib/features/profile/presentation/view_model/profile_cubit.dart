@@ -1,7 +1,7 @@
+import 'package:ailav/features/auth/presentation/view/my_information_view.dart';
+import 'package:ailav/features/auth/presentation/view_model/update_user/my_information_bloc.dart';
 import 'package:ailav/features/help/presentation/view/help_view.dart';
 import 'package:ailav/features/help/presentation/view_model/help_cubit.dart';
-import 'package:ailav/features/my_information/presentation/view/my_information_view.dart';
-import 'package:ailav/features/my_information/presentation/view_model/my_information_bloc.dart';
 import 'package:ailav/features/order_view/presentation/view/view_order.dart';
 import 'package:ailav/features/order_view/presentation/view_model/order_view_cubit.dart';
 import 'package:ailav/features/support/presentation/view/support_view.dart';

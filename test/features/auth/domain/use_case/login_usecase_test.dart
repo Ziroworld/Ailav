@@ -6,6 +6,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'authrepository.mock.dart';
 import 'token.mock.dart';
+import 'user.mock.dart';
 
 // flutter test --coverage
 // flutter test .\test\features\auth\domain\use_case\ --coverage
@@ -13,13 +14,15 @@ import 'token.mock.dart';
 
 void main() {
   late MockTokenSharedPrefs tokenSharedPrefs;
+  late MockUserSharedPrefs userSharedPrefs;
   late MockAuthRepository repository;
   late LoginUseCase usecase;
 
   setUp(() {
     repository = MockAuthRepository();
     tokenSharedPrefs = MockTokenSharedPrefs();
-    usecase = LoginUseCase(repository, tokenSharedPrefs);
+    userSharedPrefs = MockUserSharedPrefs();
+    usecase = LoginUseCase(repository, tokenSharedPrefs, userSharedPrefs);
   });
 
   test(
@@ -30,7 +33,8 @@ void main() {
         final username = invocation.positionalArguments[0] as String;
         final password = invocation.positionalArguments[1] as String;
         if (username == 'rohan' && password == 'rohan123') {
-          return Future.value(const Right('token'));
+          return Future.value(
+              const Right(AuthResponse(token: 'token', userId: 'Rohan')));
         } else {
           return Future.value(
               const Left(ApiFailure(message: 'Invalid username and password')));
@@ -38,6 +42,9 @@ void main() {
       },
     );
     when(() => tokenSharedPrefs.saveToken(any())).thenAnswer(
+      (_) async => const Right(null),
+    );
+    when(() => userSharedPrefs.saveUserId(any())).thenAnswer(
       (_) async => const Right(null),
     );
 
@@ -48,16 +55,19 @@ void main() {
 
     expect(
       result,
-      const Right('token'),
+      const Right(AuthResponse(token: 'token', userId: 'Rohan')),
     );
     verify(() => repository.loginUser(any(), any())).called(1);
     verify(() => tokenSharedPrefs.saveToken('token')).called(1);
+    verify(() => userSharedPrefs.saveUserId('Rohan')).called(1);
 
     verifyNoMoreInteractions(repository);
     verifyNoMoreInteractions(tokenSharedPrefs);
+    verifyNoMoreInteractions(userSharedPrefs);
   });
   tearDown(() {
     reset(repository);
     reset(tokenSharedPrefs);
+    reset(userSharedPrefs);
   });
 }
