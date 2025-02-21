@@ -1,5 +1,5 @@
 import 'package:ailav/app/di/di.dart';
-import 'package:ailav/features/home/presentation/view/bottom_navigation/cart_screen_view.dart';
+import 'package:ailav/features/cart/presentation/view/cart_screen_view.dart';
 import 'package:ailav/features/home/presentation/view/bottom_navigation/home_screen_view.dart';
 import 'package:ailav/features/profile/presentation/view/profile_screen_view.dart';
 import 'package:ailav/features/profile/presentation/view_model/profile_cubit.dart';

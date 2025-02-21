@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:ailav/app/di/di.dart';
 import 'package:ailav/core/common/snackbar/my_snackbar.dart';
 import 'package:ailav/features/auth/domain/use_case/login_usecase.dart';
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:ailav/features/home/presentation/view/client_homepage_view.dart';
 import 'package:ailav/features/home/presentation/view_model/home_cubit.dart';
+import 'package:ailav/features/product/presentation/view_model/product_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,8 +36,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         Navigator.pushReplacement(
           event.context,
           MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-              value: _homeCubit,
+            builder: (context) => MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: _homeCubit,
+                ),
+                BlocProvider.value(
+                  value: getIt<ProductBloc>(),
+                ),
+              ],
               child: event.destination,
             ),
           ),

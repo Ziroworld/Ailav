@@ -22,6 +22,11 @@ import 'package:ailav/features/home/presentation/view_model/home_cubit.dart';
 import 'package:ailav/features/onboarding/presentation/view_model/on_boarding_screen_cubit.dart';
 import 'package:ailav/features/order_view/presentation/view_model/order_view_cubit.dart';
 import 'package:ailav/features/privacy_policy/presentation/view_model/privacy_policy_cubit.dart';
+import 'package:ailav/features/product/data/data_source/remote_data_source/product_remote_data_source.dart';
+import 'package:ailav/features/product/data/repository/product_remote_repository.dart';
+import 'package:ailav/features/product/domain/repository/product_repository.dart';
+import 'package:ailav/features/product/domain/use_case/get_all_product_usecase.dart';
+import 'package:ailav/features/product/presentation/view_model/product_bloc.dart';
 import 'package:ailav/features/profile/presentation/view_model/profile_cubit.dart';
 import 'package:ailav/features/setting/presentation/view_model/setting_cubit.dart';
 import 'package:ailav/features/splash/presentation/view_model/splash_cubit.dart';
@@ -37,13 +42,37 @@ Future<void> initDependencies() async {
   await _initHiveService();
   await _initApiService();
   await _initSharedPreferences();
+  await _initProductDependencies();
   await _initLoginDependencies();
   await _initRegisterDependencies();
   await _initOnboardingDependencies();
   await _initSplashDependencies();
   await _initProfileDependencies();
   await _initSettingsDependencies();
+  // await _initProductDependencies();
   await _initHomeDependencies();
+}
+//=======================PRODUCTS================//
+_initProductDependencies() {
+  // Register the remote data source for products
+  getIt.registerLazySingleton<ProductRemoteDataSource>(
+    () => ProductRemoteDataSource(dio: getIt<Dio>()),
+  );
+
+  // Register the product repository 
+  getIt.registerLazySingleton<IProductRepository>(
+    () => ProductRemoteRepository(remoteDataSource: getIt<ProductRemoteDataSource>()),
+  );
+
+  // Register the usecase for getting all products
+  getIt.registerLazySingleton<GetAllProductUsecase>(
+    () => GetAllProductUsecase(productRepository: getIt<IProductRepository>()),
+  );
+
+  // Register the ProductBloc  for managing product state in the home screen
+  getIt.registerFactory<ProductBloc>(
+    () => ProductBloc(getAllProductUsecase: getIt<GetAllProductUsecase>()),
+  );
 }
 
 _initSettingsDependencies() {
