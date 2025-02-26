@@ -1,10 +1,17 @@
+import 'package:ailav/app/di/di.dart';
+import 'package:ailav/features/cart/presentation/view_model/cart_bloc.dart';
+import 'package:ailav/features/product/domain/entity/product_entity.dart';
+import 'package:ailav/features/product/presentation/view/single_product_view.dart';
+import 'package:ailav/features/product/presentation/view_model/product_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreenView extends StatelessWidget {
   const HomeScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Ensure ProductBloc is provided (or wrap this view with BlocProvider<ProductBloc>)
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -95,24 +102,39 @@ class HomeScreenView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            _buildPopularItem(
-              'Smirnoff Lemon Vodka',
-              '375ml Can | 5%',
-              'assets/images/smirnoff.png',
-              '\$2.98',
-            ),
-            _buildPopularItem(
-              'Jack Daniel’s Cola Whiskey',
-              '330ml Can | 6%',
-              'assets/images/jackdaniel.png',
-              '\$3.98',
-              stockMessage: '10 left in Stock',
-            ),
-            _buildPopularItem(
-              'Johnnie Walker Red Label',
-              '375ml Can | 5%',
-              'assets/images/johnniewalker.png',
-              '\$1.98',
+            // Use BlocBuilder to listen to ProductBloc state changes
+            BlocBuilder<ProductBloc, ProductState>(
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state.error != null) {
+                  return Center(child: Text(state.error!));
+                } else if (state.products.isEmpty) {
+                  return const Center(child: Text("No products available"));
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.products.length,
+                  itemBuilder: (context, index) {
+                    final product = state.products[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BlocProvider.value(
+                              value: getIt<CartBloc>(),
+                              child: SingleProductView(product: product),
+                            ),
+                          ),
+                        );
+                      },
+                      child: _buildProductCard(product),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -137,9 +159,7 @@ class HomeScreenView extends StatelessWidget {
     );
   }
 
-  Widget _buildPopularItem(
-      String title, String subtitle, String imagePath, String price,
-      {String? stockMessage}) {
+  Widget _buildProductCard(ProductEntity product) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       padding: const EdgeInsets.all(10.0),
@@ -156,14 +176,28 @@ class HomeScreenView extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(imagePath, width: 60, height: 60, fit: BoxFit.contain),
+          // Display the product image using network image
+          Image.network(
+            product.imageUrl,
+            width: 60,
+            height: 60,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 60,
+                height: 60,
+                color: Colors.grey[200],
+                child: const Icon(Icons.error),
+              );
+            },
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  product.name,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -171,19 +205,24 @@ class HomeScreenView extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  subtitle,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-                if (stockMessage != null)
-                  Text(
-                    stockMessage,
-                    style: const TextStyle(fontSize: 12, color: Colors.red),
+                  "In Stock: ${product.stock}",
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.red,
                   ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  product.longDescription,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
             ),
           ),
           Text(
-            price,
+            '\$${product.price}',
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

@@ -1,5 +1,4 @@
 import 'package:ailav/core/common/break_common.dart';
-import 'package:ailav/features/auth/presentation/view/login_screen_view.dart';
 import 'package:ailav/features/change_password/presentation/view/verify_otp_view.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +14,9 @@ class VerifyEmailView extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.push(
+            Navigator.pop(
               context,
-              MaterialPageRoute(builder: (context) => LoginScreenView()),
+              // MaterialPageRoute(builder: (context) => LoginScreenView()),
             );
           },
         ),
@@ -71,7 +70,7 @@ class VerifyEmailView extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromRGBO(0, 122, 255, 100),
+                    // backgroundColor: const Color.fromRGBO(0, 122, 255, 100),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 15),
                     shape: RoundedRectangleBorder(

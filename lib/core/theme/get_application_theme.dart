@@ -6,11 +6,12 @@ ThemeData getApplicationTheme() {
     scaffoldBackgroundColor: Colors.white,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(156, 41, 66, 95),
+        backgroundColor: Colors.blueAccent,
+        foregroundColor: Colors.white,
         textStyle: const TextStyle(
+          color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 16,
-          color: Colors.white,
         ),
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
         shape: RoundedRectangleBorder(

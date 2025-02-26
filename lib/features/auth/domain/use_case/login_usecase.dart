@@ -1,4 +1,5 @@
 import 'package:ailav/app/shared_prefs/token_shared_prefs.dart';
+import 'package:ailav/app/shared_prefs/user_shared_prefs.dart';
 import 'package:ailav/app/usecase/usecase.dart';
 import 'package:ailav/core/error/failure.dart';
 import 'package:ailav/features/auth/domain/repository/auth_repository.dart';
@@ -22,23 +23,37 @@ class LoginParams extends Equatable {
   List<Object?> get props => [username, password];
 }
 
-class LoginUseCase implements UsecaseWithParams<String, LoginParams> {
-  final IAuthRepository repository;
-  final TokenSharedPrefs tokenSharedPrefs;
+class AuthResponse extends Equatable {
+  final String token;
+  final String userId;
 
-  LoginUseCase(this.repository, this.tokenSharedPrefs);
+  const AuthResponse({
+    required this.token,
+    required this.userId,
+  });
 
   @override
-  Future<Either<Failure, String>> call(LoginParams params) {
+  List<Object?> get props => [token, userId];
+}
+
+class LoginUseCase implements UsecaseWithParams<AuthResponse, LoginParams> {
+  final IAuthRepository repository;
+  final TokenSharedPrefs tokenSharedPrefs;
+  final UserSharedPrefs userSharedPrefs;
+
+  LoginUseCase(this.repository, this.tokenSharedPrefs, this.userSharedPrefs);
+
+  @override
+  Future<Either<Failure, AuthResponse>> call(LoginParams params) {
     return repository.loginUser(params.username, params.password).then((value) {
       return value.fold(
         (failure) => Left(failure),
-        (token) {
-          tokenSharedPrefs.saveToken(token);
-          // tokenSharedPrefs.getToken().then((value) {
-          //   print(value);
-          // });
-          return Right(token);
+        (authResponse) {
+          // tokenSharedPrefs.saveToken(token);
+          tokenSharedPrefs.saveToken(authResponse.token);
+          print('authResponse.userId: ${authResponse.userId}');
+          userSharedPrefs.saveUserId(authResponse.userId);
+          return Right(AuthResponse(token: authResponse.token, userId: authResponse.userId));
         },
       );
     });
