@@ -109,7 +109,7 @@ class LoginScreenView extends StatelessWidget {
                                               password: _passwordController.text
                                                   .trim(),
                                               onSuccess: (destination) {
-                                                Navigator.push(
+                                                Navigator.pushReplacement(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
@@ -123,7 +123,8 @@ class LoginScreenView extends StatelessWidget {
                                                       content:
                                                           Text(errorMessage)),
                                                 );
-                                              }, context: context,
+                                              },
+                                              context: context,
                                             ),
                                           );
                                     },
