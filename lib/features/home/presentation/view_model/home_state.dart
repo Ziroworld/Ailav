@@ -1,5 +1,6 @@
 import 'package:ailav/app/di/di.dart';
 import 'package:ailav/features/cart/presentation/view/cart_screen_view.dart';
+import 'package:ailav/features/cart/presentation/view_model/cart_bloc.dart';
 import 'package:ailav/features/home/presentation/view/bottom_navigation/home_screen_view.dart';
 import 'package:ailav/features/profile/presentation/view/profile_screen_view.dart';
 import 'package:ailav/features/profile/presentation/view_model/profile_cubit.dart';
@@ -24,7 +25,10 @@ class HomeState extends Equatable {
       selectedIndex: 0,
       views: [
         const HomeScreenView(),
-        const CartScreenView(),
+        BlocProvider.value(
+          value: getIt<CartBloc>(),
+          child: const CartScreenView(),
+        ),
         BlocProvider.value(
           value: getIt<ProfileCubit>(),
           child: const ProfileScreenView(),

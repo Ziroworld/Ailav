@@ -1,3 +1,5 @@
+import 'package:ailav/app/di/di.dart';
+import 'package:ailav/features/cart/presentation/view_model/cart_bloc.dart';
 import 'package:ailav/features/product/domain/entity/product_entity.dart';
 import 'package:ailav/features/product/presentation/view/single_product_view.dart';
 import 'package:ailav/features/product/presentation/view_model/product_bloc.dart';
@@ -121,7 +123,10 @@ class HomeScreenView extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => SingleProductView(product: product),
+                            builder: (_) => BlocProvider.value(
+                              value: getIt<CartBloc>(),
+                              child: SingleProductView(product: product),
+                            ),
                           ),
                         );
                       },

@@ -1,9 +1,12 @@
+import 'package:ailav/features/cart/presentation/view_model/cart_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ailav/features/product/domain/entity/product_entity.dart';
+
 
 class SingleProductView extends StatefulWidget {
   final ProductEntity product;
-  const SingleProductView({super.key, required this.product});
+  const SingleProductView({Key? key, required this.product}) : super(key: key);
 
   @override
   State<SingleProductView> createState() => _SingleProductViewState();
@@ -115,7 +118,20 @@ class _SingleProductViewState extends State<SingleProductView> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Implement add-to-cart logic
+                  // Dispatch AddProductToCartEvent to add this product to the cart.
+                  // Replace 'user123' with your actual user id.
+                  context.read<CartBloc>().add(AddProductToCartEvent(
+                        productId: product.productId ?? '',
+                        userId: 'user123',
+                        productName: product.name,
+                        productPrice: product.price.toDouble(),
+                        productQuantity: quantity,
+                      ));
+
+                  // Optionally, show a confirmation message.
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Product added to cart!")),
+                  );
                 },
                 child: const Text(
                   "Add to Cart",

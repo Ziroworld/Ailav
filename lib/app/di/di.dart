@@ -15,6 +15,13 @@ import 'package:ailav/features/auth/domain/use_case/upload_image_usercase.dart';
 import 'package:ailav/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:ailav/features/auth/presentation/view_model/update_user/my_information_bloc.dart';
+import 'package:ailav/features/cart/data/data_source/cart_datasource.dart';
+import 'package:ailav/features/cart/data/repository/cart_remote_repository.dart';
+import 'package:ailav/features/cart/domain/use_case/add_product_usecase.dart';
+import 'package:ailav/features/cart/domain/use_case/clear_cart_usecase.dart';
+import 'package:ailav/features/cart/domain/use_case/get_cart_usecase.dart';
+import 'package:ailav/features/cart/domain/use_case/remove_product_usecase.dart';
+import 'package:ailav/features/cart/presentation/view_model/cart_bloc.dart';
 import 'package:ailav/features/delivery_charge/presentation/view_model/delivery_charge_cubit.dart';
 import 'package:ailav/features/feedback/presentation/view_model/feedback_cubit.dart';
 import 'package:ailav/features/help/presentation/view_model/help_cubit.dart';
@@ -42,6 +49,7 @@ Future<void> initDependencies() async {
   await _initHiveService();
   await _initApiService();
   await _initSharedPreferences();
+  await _initCartDependencies();
   await _initProductDependencies();
   await _initLoginDependencies();
   await _initRegisterDependencies();
@@ -52,6 +60,37 @@ Future<void> initDependencies() async {
   // await _initProductDependencies();
   await _initHomeDependencies();
 }
+
+_initCartDependencies() {
+  getIt.registerLazySingleton<CartDatasource>(
+    () => CartDatasource(userSharedPrefs: getIt<UserSharedPrefs>(),dio: getIt<Dio>()),
+  );
+  getIt.registerLazySingleton<CartRemoteRepository>(
+    () => CartRemoteRepository(cartDatasource: getIt<CartDatasource>()),
+  );
+
+  getIt.registerLazySingleton<AddProductUsecase>(
+    () => AddProductUsecase(repository: getIt<CartRemoteRepository>()),
+  );
+  getIt.registerLazySingleton<RemoveProductUsecase>(
+    () => RemoveProductUsecase(repository: getIt<CartRemoteRepository>()),
+  );
+  getIt.registerLazySingleton<ClearCartUsecase>(
+    () => ClearCartUsecase(repository: getIt<CartRemoteRepository>()),
+  );
+  getIt.registerLazySingleton<GetCartUsecase>(
+    () => GetCartUsecase(repository: getIt<CartRemoteRepository>()),
+  );
+
+  getIt.registerFactory<CartBloc>(
+    () => CartBloc(
+        addProductUsecase: getIt(),
+        removeProductUsecase: getIt(),
+        clearCartUsecase: getIt(),
+        getCartUsecase: getIt()),
+  );
+}
+
 //=======================PRODUCTS================//
 _initProductDependencies() {
   // Register the remote data source for products
@@ -59,9 +98,10 @@ _initProductDependencies() {
     () => ProductRemoteDataSource(dio: getIt<Dio>()),
   );
 
-  // Register the product repository 
+  // Register the product repository
   getIt.registerLazySingleton<IProductRepository>(
-    () => ProductRemoteRepository(remoteDataSource: getIt<ProductRemoteDataSource>()),
+    () => ProductRemoteRepository(
+        remoteDataSource: getIt<ProductRemoteDataSource>()),
   );
 
   // Register the usecase for getting all products
@@ -118,7 +158,7 @@ Future<void> _initSharedPreferences() async {
     () => sharedPreferences,
   );
 
-    getIt.registerLazySingleton<UserSharedPrefs>(
+  getIt.registerLazySingleton<UserSharedPrefs>(
     () => UserSharedPrefs(getIt<SharedPreferences>()),
   );
 }

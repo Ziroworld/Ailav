@@ -11,7 +11,12 @@ class ApiEndpoints {
   static const String uploadImage = "auth/uploadImage";
   static const String updateUser = "users";
 
-
   // ---------------Product Routes---------------
   static const String getAllProducts = "product/findall";
+
+  // ---------------Cart Routes---------------
+  static const String cart = "cart";
+  static const String addProductToCart = "cart/add";
+  static const String removeProductFromCart = "cart/remove";
+  static const String clearCart = "cart/clear";
 }
