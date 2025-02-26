@@ -1,4 +1,3 @@
-import 'package:ailav/features/auth/presentation/view/my_information_view.dart';
 import 'package:ailav/features/auth/presentation/view_model/update_user/my_information_bloc.dart';
 import 'package:ailav/features/help/presentation/view/help_view.dart';
 import 'package:ailav/features/help/presentation/view_model/help_cubit.dart';
@@ -20,8 +19,11 @@ class FakeMyInformationBloc extends Fake implements MyInformationBloc {}
 
 /// Mocks for cubit dependencies.
 class MockOrderViewCubit extends Mock implements OrderViewCubit {}
+
 class MockMyInformationBloc extends Mock implements MyInformationBloc {}
+
 class MockHelpCubit extends Mock implements HelpCubit {}
+
 class MockSupportCubit extends Mock implements SupportCubit {}
 
 void main() {

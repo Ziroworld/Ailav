@@ -116,5 +116,4 @@ class SettingCubit extends Cubit<void> {
       );
     }
   }
-  
 }
