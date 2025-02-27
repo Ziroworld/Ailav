@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ailav/core/common/break_common.dart';
 import 'package:ailav/features/auth/presentation/view/login_screen_view.dart';
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:ailav/sensor/shake.detector.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
       TextEditingController();
 
   File? _image;
+  ShakeDetector? _shakeDetector;
 
   // Check for camera permission
   Future<void> checkCameraPermission() async {
@@ -54,6 +56,35 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // Initialize shake detector
+    _shakeDetector = ShakeDetector(
+      onPhoneShake: () {
+        // Navigate to login screen when a shake is detected.
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreenView()),
+        );
+      },
+    );
+    _shakeDetector!.startListening();
+  }
+
+  @override
+  void dispose() {
+    _shakeDetector?.stopListening();
+    _nameController.dispose();
+    _ageController.dispose();
+    _usernameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -69,7 +100,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                       Break(60),
                       // Profile Picture Picker
                       GestureDetector(
-                        onTap: () => {
+                        onTap: () {
                           showModalBottomSheet(
                             useSafeArea: true,
                             context: context,
@@ -84,14 +115,14 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                                       onPressed: () {
                                         checkCameraPermission();
                                         _pickImage(ImageSource.camera);
-                                        // Navigator.pop(context);
-                                        // Upload image it is not null
                                       },
                                       icon: const Icon(Icons.camera),
                                       label: const Text('Camera'),
                                     ),
                                     ElevatedButton.icon(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _pickImage(ImageSource.gallery);
+                                      },
                                       icon: const Icon(Icons.image),
                                       label: const Text('Gallery'),
                                     ),
@@ -99,7 +130,7 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                                 ),
                               ),
                             ),
-                          )
+                          );
                         },
                         child: CircleAvatar(
                           radius: 50,
