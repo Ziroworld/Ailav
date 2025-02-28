@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ailav/core/common/break_common.dart';
 import 'package:ailav/features/auth/presentation/view/login_screen_view.dart';
 import 'package:ailav/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:ailav/features/terms_and_condition/presentation/view/terms_and_condition_view.dart';
 import 'package:ailav/sensor/shake.detector.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -218,9 +219,42 @@ class _RegisterScreenViewState extends State<RegisterScreenView> {
                                       );
                                 },
                               ),
-                              const Expanded(
-                                child:
-                                    Text('I agree to the terms and conditions'),
+                              Expanded(
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(text: 'I agree to the '),
+                                      WidgetSpan(
+                                        child: MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TermsAndConditionView(),
+                                                ),
+                                              );
+                                            },
+                                            child: const Text(
+                                              'terms and conditions',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
                           );
