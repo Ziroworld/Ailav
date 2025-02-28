@@ -18,9 +18,6 @@ void main() async {
         BlocProvider(
           create: (context) => getIt<LoginBloc>(), // Provide LoginBloc globally
         ),
-        // BlocProvider(
-        //   create: (context) => getIt<SettingCubit>(),
-        // ),
       ],
       child: const MyApp(),
     ),
