@@ -886,7 +886,7 @@ packages:
     source: hosted
     version: "6.1.2"
   proximity_sensor:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: proximity_sensor
       sha256: "5a01695eca08984f466d6aca95e784c0ad3eb1359fd41b456399f8d7fcb51faf"
@@ -910,7 +910,7 @@ packages:
     source: hosted
     version: "1.5.0"
   sensors_plus:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: sensors_plus
       sha256: "905282c917c6bb731c242f928665c2ea15445aa491249dea9d98d7c79dc8fd39"

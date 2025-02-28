@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:io'; // Import dart:io for exit(0)
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:proximity_sensor/proximity_sensor.dart';
 
 class GlobalProximityListener extends StatefulWidget {
@@ -16,6 +15,7 @@ class GlobalProximityListener extends StatefulWidget {
 
 class _GlobalProximityListenerState extends State<GlobalProximityListener> {
   late StreamSubscription<dynamic> _proximitySubscription;
+  bool _isNear = false;
 
   @override
   void initState() {
@@ -24,13 +24,15 @@ class _GlobalProximityListenerState extends State<GlobalProximityListener> {
       // Log the raw sensor event for debugging.
       print('Proximity sensor event: $event');
 
-      // Check if the event indicates "near". It might be an int (1), a bool (true), or any num > 0.
-      if ((event == 1) || (event is bool && event == true) || (event is num && event > 0)) {
-        print('Proximity sensor triggered: Object is near');
-        // For testing, forcefully exit the app:
-        exit(0);
-        // If you prefer the standard method, you could try:
-        // SystemNavigator.pop();
+      // Determine near condition. Many devices return 1 (or true) when near.
+      bool nearCondition = false;
+      nearCondition = (event == 1);
+
+      // Update state only if the sensor state changes.
+      if (nearCondition != _isNear) {
+        setState(() {
+          _isNear = nearCondition;
+        });
       }
     });
   }
@@ -43,6 +45,20 @@ class _GlobalProximityListenerState extends State<GlobalProximityListener> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return Stack(
+      children: [
+        widget.child,
+        // When _isNear is true, overlay a full-screen black container
+        // to simulate turning off the display.
+        if (_isNear)
+          IgnorePointer(
+            child: Container(
+              color: Colors.black,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+      ],
+    );
   }
 }
