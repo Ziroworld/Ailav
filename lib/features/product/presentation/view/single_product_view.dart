@@ -122,7 +122,7 @@ class _SingleProductViewState extends State<SingleProductView> {
                   // Replace 'user123' with your actual user id.
                   context.read<CartBloc>().add(AddProductToCartEvent(
                         productId: product.productId ?? '',
-                        userId: 'user123',
+                        userId: 'rohan123',
                         productName: product.name,
                         productPrice: product.price.toDouble(),
                         productQuantity: quantity,

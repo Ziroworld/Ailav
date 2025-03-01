@@ -3,6 +3,8 @@ import 'package:ailav/features/cart/presentation/view_model/cart_bloc.dart';
 import 'package:ailav/features/product/domain/entity/product_entity.dart';
 import 'package:ailav/features/product/presentation/view/single_product_view.dart';
 import 'package:ailav/features/product/presentation/view_model/product_bloc.dart';
+// 1) Import your direction detector
+import 'package:ailav/sensor/direction.detector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +13,6 @@ class HomeScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ensure ProductBloc is provided (or wrap this view with BlocProvider<ProductBloc>)
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -40,8 +41,22 @@ class HomeScreenView extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.person, color: Colors.black),
-            onPressed: () {},
+            // 2) Replace old profile icon with a compass icon
+            icon: const Icon(Icons.explore, color: Colors.black),
+            onPressed: () {
+              // 3) Show a dialog containing DirectionDetector
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const DirectionDetector(),
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
@@ -102,7 +117,6 @@ class HomeScreenView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // Use BlocBuilder to listen to ProductBloc state changes
             BlocBuilder<ProductBloc, ProductState>(
               builder: (context, state) {
                 if (state.isLoading) {
@@ -176,7 +190,6 @@ class HomeScreenView extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Display the product image using network image
           Image.network(
             product.imageUrl,
             width: 60,

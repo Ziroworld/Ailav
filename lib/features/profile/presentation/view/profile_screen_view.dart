@@ -158,18 +158,26 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
                 onPressed: () {
                   checkCameraPermission();
                   _pickImage(ImageSource.camera);
-                  Navigator.pop(context);
                 },
-                icon: const Icon(Icons.camera),
-                label: const Text('Camera'),
+                icon: const Icon(Icons.camera, size: 20),
+                label: const Text('Camera', style: TextStyle(fontSize: 14)),
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  minimumSize: const Size(100, 40),
+                ),
               ),
               ElevatedButton.icon(
                 onPressed: () {
                   _pickImage(ImageSource.gallery);
-                  Navigator.pop(context);
                 },
-                icon: const Icon(Icons.image),
-                label: const Text('Gallery'),
+                icon: const Icon(Icons.image, size: 20),
+                label: const Text('Gallery', style: TextStyle(fontSize: 14)),
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  minimumSize: const Size(100, 40),
+                ),
               ),
             ],
           ),

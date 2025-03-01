@@ -4,7 +4,6 @@ import 'package:ailav/features/order/presentation/view/order_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class CartScreenView extends StatelessWidget {
   const CartScreenView({super.key});
 
@@ -110,17 +109,22 @@ class CartScreenView extends StatelessWidget {
                                     maxLines: 2,
                                   ),
                                   const SizedBox(height: 8),
-                                  Row(
+                                  // Using a Wrap widget to avoid overflow on smaller devices:
+                                  Wrap(
+                                    crossAxisAlignment: WrapCrossAlignment.center,
+                                    spacing: 8,
+                                    runSpacing: 4,
                                     children: [
-                                      // Remove one unit if quantity > 1, else remove completely
                                       IconButton(
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
                                         icon: const Icon(Icons.remove),
                                         onPressed: () {
                                           if (item.quantity > 1) {
                                             context.read<CartBloc>().add(
                                               RemoveProductFromCartEvent(
                                                 productId: item.productId,
-                                                userId: "rohan",
+                                                userId: "rohan123",
                                                 productName: item.productName,
                                                 productPrice: item.price,
                                                 productQuantity: 1,
@@ -130,7 +134,7 @@ class CartScreenView extends StatelessWidget {
                                             context.read<CartBloc>().add(
                                               RemoveProductFromCartEvent(
                                                 productId: item.productId,
-                                                userId: "rohan",
+                                                userId: "rohan123",
                                                 productName: item.productName,
                                                 productPrice: item.price,
                                                 productQuantity: item.quantity,
@@ -143,14 +147,15 @@ class CartScreenView extends StatelessWidget {
                                         item.quantity.toString(),
                                         style: const TextStyle(fontSize: 16),
                                       ),
-                                      // Increment quantity by 1
                                       IconButton(
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
                                         icon: const Icon(Icons.add),
                                         onPressed: () {
                                           context.read<CartBloc>().add(
                                             AddProductToCartEvent(
                                               productId: item.productId,
-                                              userId: "rohan",
+                                              userId: "rohan123",
                                               productName: item.productName,
                                               productPrice: item.price,
                                               productQuantity: item.quantity + 1,
@@ -158,7 +163,6 @@ class CartScreenView extends StatelessWidget {
                                           );
                                         },
                                       ),
-                                      const Spacer(),
                                       Text(
                                         '\$${item.price.toStringAsFixed(2)}',
                                         style: const TextStyle(
@@ -166,14 +170,15 @@ class CartScreenView extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      // Delete button to remove the item completely from the cart
                                       IconButton(
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
                                         icon: const Icon(Icons.delete),
                                         onPressed: () {
                                           context.read<CartBloc>().add(
                                             RemoveProductFromCartEvent(
                                               productId: item.productId,
-                                              userId: "rohan",
+                                              userId: "rohan123",
                                               productName: item.productName,
                                               productPrice: item.price,
                                               productQuantity: item.quantity,
@@ -195,8 +200,7 @@ class CartScreenView extends StatelessWidget {
               ),
               // Total Price and Proceed to Order Section
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Column(
                   children: [
                     Row(
@@ -221,7 +225,6 @@ class CartScreenView extends StatelessWidget {
                     const SizedBox(height: 12),
                     ElevatedButton(
                       onPressed: () {
-                        // Navigate to Order Screen with cart data
                         Navigator.push(
                           context,
                           MaterialPageRoute(
